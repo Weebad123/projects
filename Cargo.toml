@@ -1,0 +1,9 @@
+[workspace]
+members = [
+    "guessing_game",
+    "word_counter",
+    "calculator_simple",
+    "temp_converter",
+    "bmi_converter",
+]
+resolver = "2"
