@@ -13,6 +13,7 @@ struct Task {
     completed: bool,
 }
 
+#[derive(Serialize, Deserialize, Debug)]
 struct TodoTasks {
     all_tasks: Vec<Task>
 }
@@ -28,7 +29,35 @@ impl TodoTasks {
 1. create a task and add it to the Todo
 */
 fn main() {
-    println!("Hello, world!");
+    println!("Simple ToDo List App");
+
+    //let tasks = load_tasks("file1.json");
+    loop {
+        println!("\nTo-Do List Menu");
+        println!("1. Add a Task");
+        println!("2. View Task");
+        println!("3. Mark task as completed");
+        println!("4. Delete Task");
+        println!("5. Update Task Description");
+        println!("6. Save Task");
+
+        let user_choice = get_input("Enter Your Action");
+        //let parsed_user_choice = parsed_id(id)
+        //let tasks = load_tasks("some_shit.json");
+        let mut my_task = TodoTasks::new(2);
+        match user_choice.trim() {
+            "1" => {
+                println!("Adding task");
+                my_task = add_task(/*&get_input("Enter filename")*/);
+            },
+            "6" => save_tasks(my_task, "some_shit.json"),
+            //"2" => view_tasks(&tasks),
+            _ => {
+                println!("Incorrect choice");
+                break;
+            }
+        }
+    }
 }
 
 
@@ -51,22 +80,22 @@ fn parsed_id(id: String) -> Option<usize> {
     };
     parsed_id
 }
-fn load_tasks(file_name_containing_task: &str) -> Vec<Task> {
+fn load_tasks(file_name_containing_task: &str) -> /*Vec<Task>*/TodoTasks {
 
     match fs::read_to_string(file_name_containing_task) {
-        Ok(content) => serde_json::from_str(&content).unwrap_or_else(|_| Vec::new()),
-        Err(_) => Vec::new(),
+        Ok(content) => serde_json::from_str(&content).unwrap_or_else(|_| TodoTasks::new(0)),
+        Err(_) => /*Vec::new()*/TodoTasks::new(0),
     }
 }
 
 fn save_tasks(tasks: TodoTasks, filename: &str) {
-    let all_tasks = &tasks.all_tasks;
-    let json = serde_json::to_string_pretty(all_tasks).expect("Failed to serialize tasks");
+    //let all_tasks = &tasks.all_tasks;
+    let json = serde_json::to_string_pretty(&tasks.all_tasks).expect("Failed to serialize tasks");
     let mut file = File::create(filename).expect("Failed to create file");
     file.write_all(json.as_bytes()).expect("Failed to write tasks to file");
 }
 
-fn add_task(task: Task) {
+fn add_task(/*filename: &str*/) -> TodoTasks {
     let mut all_todo = TodoTasks::new(10);
     // Get input for description, automatic id generation
     let description = get_input("Enter task description");
@@ -79,6 +108,8 @@ fn add_task(task: Task) {
         completed
     });
 
+    //save_tasks(all_todo, &get_input("Enter filename here"));
+    all_todo
 }
 
 fn view_tasks(tasks: &TodoTasks) {
