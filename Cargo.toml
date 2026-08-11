@@ -4,7 +4,7 @@ members = [
     "word_counter",
     "calculator_simple",
     "temp_converter",
-    "bmi_converter", "palindrome_checker", "fibonacci_generator", "prime_number_checker", "todo_list", "timer_tool", "json_parser", "file_reader",
+    "bmi_converter", "palindrome_checker", "fibonacci_generator", "prime_number_checker", "todo_list", "timer_tool", "json_parser", "file_reader", "string_manipulation",
 ]
 resolver = "2"
 
